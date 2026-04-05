@@ -43,6 +43,16 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +61,31 @@ class _ContactPageState extends State<ContactPage> {
         backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
       ),
-      body: const SizedBox(), // empty for now
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: 'Contact Name',
+                hintText: 'Enter contact name...',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              decoration: const InputDecoration(
+                labelText: 'Phone Number',
+                hintText: 'Enter phone number...',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
