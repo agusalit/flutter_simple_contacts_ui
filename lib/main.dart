@@ -46,6 +46,10 @@ class _ContactPageState extends State<ContactPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
+  void _addContact() {
+    print('button clicked');
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -81,6 +85,20 @@ class _ContactPageState extends State<ContactPage> {
                 labelText: 'Phone Number',
                 hintText: 'Enter phone number...',
                 border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _addContact,
+                icon: const Icon(Icons.add),
+                label: const Text('Add Contact'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[800],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
               ),
             ),
           ],
