@@ -35,6 +35,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class Contact {
+  final String name;
+  final String phone;
+
+  Contact({required this.name, required this.phone});
+}
+
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
 
