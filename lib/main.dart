@@ -60,7 +60,16 @@ class _ContactPageState extends State<ContactPage> {
   ];
 
   void _addContact() {
-    print('button clicked');
+    final name = _nameController.text.trim();
+    final phone = _phoneController.text.trim();
+
+    if (name.isEmpty || phone.isEmpty) return;
+
+    setState(() {
+      _contacts.add(Contact(name: name, phone: phone));
+      _nameController.clear();
+      _phoneController.clear();
+    });
   }
 
   String _getInitials(String name) {
