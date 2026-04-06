@@ -53,6 +53,12 @@ class _ContactPageState extends State<ContactPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
+  final List<Contact> _contacts = [
+    Contact(name: 'Leon S Kennedy', phone: '+62 812-3456-7890'),
+    Contact(name: 'Luffy D Monkey', phone: '+62 823-4567-8901'),
+    Contact(name: 'Arthur Pendragon', phone: '+62 834-5678-9012'),
+  ];
+
   void _addContact() {
     print('button clicked');
   }
@@ -107,6 +113,13 @@ class _ContactPageState extends State<ContactPage> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
+            ),
+            const SizedBox(height: 20),
+            const Divider(),
+            const SizedBox(height: 8),
+            const Text(
+              'Contact List',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),
