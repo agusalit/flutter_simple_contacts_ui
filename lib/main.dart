@@ -154,19 +154,36 @@ class _ContactPageState extends State<ContactPage> {
                       ),
                     ),
                   ),
-                  // Body content
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          'Contact Name',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF101828),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
                         TextField(
                           controller: _nameController,
                           decoration: _buildInputDecoration(
                             'Enter contact name...',
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 18),
+                        const Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF101828),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
                         TextField(
                           controller: _phoneController,
                           keyboardType: TextInputType.phone,
@@ -174,39 +191,47 @@ class _ContactPageState extends State<ContactPage> {
                             'Enter phone number...',
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 18),
                         SizedBox(
                           width: double.infinity,
-                          child: ElevatedButton.icon(
+                          height: 52,
+                          child: ElevatedButton(
                             onPressed: _addContact,
-                            icon: const Icon(Icons.add),
-                            label: const Text('Add Contact'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF2F66E8),
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: const Text(
+                              'Add Contact',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
                         const Divider(),
                         const SizedBox(height: 8),
                         const Text(
                           'Contact List',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF101828),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 14),
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: _contacts.length,
-                          itemBuilder: (context, index) {
-                            final contact = _contacts[index];
-                            return _buildContactItem(contact);
-                          },
+                          itemBuilder: (context, index) =>
+                              _buildContactItem(_contacts[index]),
                         ),
                       ],
                     ),
