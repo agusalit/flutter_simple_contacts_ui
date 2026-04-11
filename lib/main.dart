@@ -1,17 +1,3 @@
-// Task: UI Implementation
-
-// Input Section:
-// - TextField -> Contact Name
-// - TextField -> Phone Number
-// - Button -> Add Contact
-
-// List Section:
-// - Text: "Contact List"
-// - ListView/Column
-// - Showing 3 data dummies
-
-// Use: Scaffold, AppBar, Text, TextField, ElevatedButton, ListView/Column, Padding/Container/SizedBox
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -72,12 +58,53 @@ class _ContactPageState extends State<ContactPage> {
     });
   }
 
-  String _getInitials(String name) {
-    final parts = name.trim().split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-    }
-    return name.isNotEmpty ? name[0].toUpperCase() : '?';
+  InputDecoration _buildInputDecoration(String hintText) {
+    return InputDecoration(
+      hintText: hintText,
+      hintStyle: const TextStyle(color: Color(0xFF98A2B3), fontSize: 16),
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Color(0xFFD0D5DD), width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Color(0xFF2F66E8), width: 1.5),
+      ),
+    );
+  }
+
+  Widget _buildContactItem(Contact contact) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: const Color(0xFFD0D5DD)),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            contact.name,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF0F172A),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            contact.phone,
+            style: const TextStyle(fontSize: 15, color: Color(0xFF475467)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -102,21 +129,13 @@ class _ContactPageState extends State<ContactPage> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Contact Name',
-                hintText: 'Enter contact name...',
-                border: OutlineInputBorder(),
-              ),
+              decoration: _buildInputDecoration('Enter contact name...'),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                labelText: 'Phone Number',
-                hintText: 'Enter phone number...',
-                border: OutlineInputBorder(),
-              ),
+              decoration: _buildInputDecoration('Enter phone number...'),
             ),
             const SizedBox(height: 12),
             SizedBox(
@@ -145,30 +164,7 @@ class _ContactPageState extends State<ContactPage> {
                 itemCount: _contacts.length,
                 itemBuilder: (context, index) {
                   final contact = _contacts[index];
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.blue[800],
-                        child: Text(
-                          _getInitials(contact.name),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        contact.name,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      subtitle: Text(contact.phone),
-                    ),
-                  );
+                  return _buildContactItem(contact);
                 },
               ),
             ),
