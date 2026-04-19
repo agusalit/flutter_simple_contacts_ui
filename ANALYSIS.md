@@ -12,7 +12,7 @@ Each contact is represented as an object (`Contact`), and all contacts are store
 
 ## 2. Where the data is stored
 
-The data is stored inside a StatefulWidget (`_ContactPageState`).
+The data is stored inside a StatefulWidget (`_ContactPageState`). This ensures that the state is owned at a level where it can control both the form and the list UI.
 
 This is because:
 - The data can change dynamically
@@ -41,17 +41,17 @@ When `setState()` is called:
 - Flutter rebuilds the widget
 - The ListView reads the updated `_contacts`
 - The new contact appears automatically
-
-This shows that:
-> UI is a representation of the underlying data (state)
+  
+This demonstrates Flutter's reactive UI model, where the interface automatically reflects the latest state.
 
 ---
 
 ## 5. Components that receive the data
 
-- `ListView.builder` → determines number of items
-- `ContactItem` → displays each contact
-- Parent widget → manages the state
+- `ContactListSection` → receives the full `_contacts` list to display
+- `ContactItem` → receives a single `Contact` object to render each row
+- `ContactFormSection` → receives the controllers and `onAddContact` function
+- `_ContactPageState` → owns and manages the state, passes data down to the above
 
 ---
 
@@ -80,7 +80,9 @@ Therefore, I refactored the application by:
   - `ContactFormSection`
   - `ContactListSection`
 
-This makes the code more modular, easier to understand, and closer to real-world development practices.
+This makes the code more modular, easier to understand, and closer to real-world development practices. Using Material widgets also means the app automatically follows platform conventions — spacing, typography, and touch targets are handled by the framework, so I don't need to manually maintain them.
+
+This reduces the need for manual styling and minimizes the risk of inconsistent UI behavior.
 
 ---
 
@@ -90,6 +92,7 @@ Through this task, I learned that:
 
 - UI should be built from small reusable components (bottom-up)
 - It is better to use existing design systems before creating custom styles
-- UI is a direct representation of application state
+- UI is a function of state — when the state changes, the UI follows automatically.
+- Proper separation of concerns (state, UI, and components) makes the application easier to scale and maintain
 
 This approach leads to cleaner code, faster development, and more maintainable applications.
