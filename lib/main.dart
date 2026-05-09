@@ -45,16 +45,36 @@ class _ContactPageState extends State<ContactPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   final List<Contact> _contacts = [
     Contact(name: 'Leon S Kennedy', phone: '+62 812-3456-7890'),
     Contact(name: 'Luffy D Monkey', phone: '+62 823-4567-8901'),
     Contact(name: 'Arthur Pendragon', phone: '+62 834-5678-9012'),
   ];
 
+  String? _validateName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Name cannot be empty';
+    }
+    return null;
+  }
+
+  String? _validatePhone(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Phone number cannot be empty';
+    }
+    final phoneRegex = RegExp(r"^\+?[\d\s]+$");
+    if (!phoneRegex.hasMatch(value.trim())) {
+      return 'Phone can only contain numbers, +, and spaces';
+    }
+    return null;
+  }
+
   void _addContact() {
+    if (!_formKey.currentState!.validate()) return;
     final name = _nameController.text.trim();
     final phone = _phoneController.text.trim();
-    if (name.isEmpty || phone.isEmpty) return;
     setState(() {
       _contacts.add(Contact(name: name, phone: phone));
       _nameController.clear();
@@ -75,16 +95,21 @@ class _ContactPageState extends State<ContactPage> {
       appBar: AppBar(title: const Text('Contact App')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ContactFormSection(
-              nameController: _nameController,
-              phoneController: _phoneController,
-              onAddContact: _addContact,
-            ),
-            const SizedBox(height: 24),
-            ContactListSection(contacts: _contacts),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              ContactFormSection(
+                nameController: _nameController,
+                phoneController: _phoneController,
+                onAddContact: _addContact,
+                validateName: _validateName,
+                validatePhone: _validatePhone,
+              ),
+              const SizedBox(height: 24),
+              ContactListSection(contacts: _contacts),
+            ],
+          ),
         ),
       ),
     );
@@ -97,19 +122,23 @@ class AppTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final TextInputType? keyboardType;
+  final String? Function(String?)? validator; // ADD
 
   const AppTextField({
     super.key,
     required this.label,
     required this.controller,
     this.keyboardType,
+    this.validator, // ADD
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      // CHANGE from TextField
       controller: controller,
       keyboardType: keyboardType,
+      validator: validator, // ADD
       decoration: InputDecoration(
         labelText: label,
         border: const OutlineInputBorder(),
@@ -152,12 +181,16 @@ class ContactFormSection extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController phoneController;
   final VoidCallback onAddContact;
+  final String? Function(String?)? validateName;
+  final String? Function(String?)? validatePhone;
 
   const ContactFormSection({
     super.key,
     required this.nameController,
     required this.phoneController,
     required this.onAddContact,
+    this.validateName,
+    this.validatePhone,
   });
 
   @override
@@ -165,12 +198,17 @@ class ContactFormSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppTextField(label: 'Contact Name', controller: nameController),
+        AppTextField(
+          label: 'Contact Name',
+          controller: nameController,
+          validator: validateName,
+        ),
         const SizedBox(height: 16),
         AppTextField(
           label: 'Phone Number',
           controller: phoneController,
           keyboardType: TextInputType.phone,
+          validator: validatePhone,
         ),
         const SizedBox(height: 16),
         PrimaryButton(text: 'Add Contact', onPressed: onAddContact),
