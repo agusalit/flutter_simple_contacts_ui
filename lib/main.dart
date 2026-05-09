@@ -14,7 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorSchemeSeed: const Color(0xFF144FDA),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF2F66E8),
+          primary: const Color(0xFF2F66E8),
+          onPrimary: Colors.white,
+        ),
         useMaterial3: true,
       ),
       home: const ContactPage(),
@@ -46,9 +50,9 @@ class _ContactPageState extends State<ContactPage> {
   final _formKey = GlobalKey<FormState>();
 
   final List<Contact> _contacts = [
-    Contact(name: 'Leon S Kennedy', phone: '+62 812-3456-7890'),
-    Contact(name: 'Luffy D Monkey', phone: '+62 823-4567-8901'),
-    Contact(name: 'Arthur Pendragon', phone: '+62 834-5678-9012'),
+    Contact(name: 'Leon S Kennedy', phone: '+62 81234567890'),
+    Contact(name: 'Luffy D Monkey', phone: '+62 82345678901'),
+    Contact(name: 'Arthur Pendragon', phone: '+62 83456789012'),
   ];
 
   String? _validateName(String? value) {
