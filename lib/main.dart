@@ -9,9 +9,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ContactPage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2F66E8)),
+        useMaterial3: true,
+      ),
+      home: const ContactPage(),
     );
   }
 }
@@ -60,19 +64,62 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Contact App')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ContactFormSection(
-              nameController: _nameController,
-              phoneController: _phoneController,
-              onAddContact: _addContact,
+      backgroundColor: const Color(0xFFE5E5E5),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              width: 380,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF3F4F6),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Custom header
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 18,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF2F66E8),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
+                    ),
+                    child: const Text(
+                      'Contact App',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ContactFormSection(
+                          nameController: _nameController,
+                          phoneController: _phoneController,
+                          onAddContact: _addContact,
+                        ),
+                        const SizedBox(height: 24),
+                        ContactListSection(contacts: _contacts),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 24),
-            ContactListSection(contacts: _contacts),
-          ],
+          ),
         ),
       ),
     );
@@ -98,7 +145,24 @@ class AppTextField extends StatelessWidget {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: label,
-        border: const OutlineInputBorder(),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 18,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFFD0D5DD)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFFD0D5DD), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFF2F66E8), width: 1.5),
+        ),
       ),
     );
   }
@@ -114,7 +178,22 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(onPressed: onPressed, child: Text(text)),
+      height: 52,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF2F66E8),
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+      ),
     );
   }
 }
@@ -127,8 +206,28 @@ class ContactItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: ListTile(title: Text(contact.name), subtitle: Text(contact.phone)),
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: const BorderSide(color: Color(0xFFD0D5DD)),
+      ),
+      color: Colors.white,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        title: Text(
+          contact.name,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF0F172A),
+          ),
+        ),
+        subtitle: Text(
+          contact.phone,
+          style: const TextStyle(fontSize: 14, color: Color(0xFF475467)),
+        ),
+      ),
     );
   }
 }
@@ -148,15 +247,34 @@ class ContactFormSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const Text(
+          'Contact Name',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF101828),
+          ),
+        ),
+        const SizedBox(height: 8),
         AppTextField(label: 'Contact Name', controller: nameController),
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
+        const Text(
+          'Phone Number',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF101828),
+          ),
+        ),
+        const SizedBox(height: 8),
         AppTextField(
           label: 'Phone Number',
           controller: phoneController,
           keyboardType: TextInputType.phone,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
         PrimaryButton(text: 'Add Contact', onPressed: onAddContact),
       ],
     );
@@ -175,9 +293,13 @@ class ContactListSection extends StatelessWidget {
       children: [
         const Text(
           'Contact List',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF101828),
+          ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 14),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
