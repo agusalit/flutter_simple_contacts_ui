@@ -229,14 +229,49 @@ class ContactListSection extends StatelessWidget {
       children: [
         Text('Contact List', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: contacts.length,
-          itemBuilder: (context, index) =>
-              ContactItem(contact: contacts[index]),
-        ),
+        contacts.isEmpty
+            ? const EmptyState()
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: contacts.length,
+                itemBuilder: (context, index) =>
+                    ContactItem(contact: contacts[index]),
+              ),
       ],
+    );
+  }
+}
+
+class EmptyState extends StatelessWidget {
+  const EmptyState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Icon(
+            Icons.contact_page_outlined,
+            size: 64,
+            color: Theme.of(context).colorScheme.outline,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'No contacts yet',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Theme.of(context).colorScheme.outline,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Add a contact using the form above',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.outline,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
