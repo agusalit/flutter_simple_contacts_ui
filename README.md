@@ -7,9 +7,10 @@ A simple Flutter application for managing contacts. Built as a UI implementation
 ## ✨ Features
 
 - Add a new contact with a name and phone number
+- Input validation for name and phone fields
 - View all contacts in a scrollable list
-- Initials avatar auto-generated from contact name
-- Pre-loaded with 3 contacts sample data
+- Empty state message when no contacts exist
+- Pre-loaded with 3 sample contacts
 
 ---
 
@@ -25,11 +26,12 @@ A simple Flutter application for managing contacts. Built as a UI implementation
 |---|---|
 | `Scaffold` | Base page structure |
 | `AppBar` | Top navigation bar |
-| `TextField` | Name and phone number input |
-| `ElevatedButton` | Submit / Add Contact |
+| `Form` + `TextFormField` | Input fields with validation |
+| `FilledButton` | Submit / Add Contact |
+| `Card` + `ListTile` | Contact list items |
 | `ListView.builder` | Scrollable contact list |
 | `Text` | Labels and contact info |
-| `Padding` / `SizedBox` / `Container` | Layout and spacing |
+| `Padding` / `SizedBox` | Layout and spacing |
 
 ---
 
@@ -45,7 +47,7 @@ A simple Flutter application for managing contacts. Built as a UI implementation
 
 ```bash
 git clone https://github.com/agusalit/flutter_simple_contacts_ui.git
-cd contact_app
+cd flutter_simple_contacts_ui
 flutter pub get
 flutter run
 ```
@@ -55,9 +57,11 @@ flutter run
 ## 📁 Project Structure
 
 ```
-contact_app/
+flutter_simple_contacts_ui/
 ├── lib/
 │   └── main.dart        # All UI and logic
+├── assets/
+│   └── flutter_ss.jpg   # Screenshot
 ├── pubspec.yaml         # Dependencies
 └── README.md
 ```
@@ -66,18 +70,32 @@ contact_app/
 
 ## 🗂️ Commit History
 
-| Commit Message | Description |
-|---|---|
-| Initial commit | Initial project setup |
-| Add Scaffold and AppBar | Base page structure with top navigation bar |
-| Add name and phone TextField inputs | Input fields for contact name and phone number |
-| Add Button for adding contact | Button UI to submit new contact |
-| Add Contact class | Data model with name and phone fields |
-| Add contacts data sample and headerContact List | 3 sample contacts and section label |
-| Add ListView to display contacts | Scrollable list with avatar, name, and phone |
-| Add functionality to the '+Add Contact' button | Wire up button to add contacts dynamically |
-| Add README & Screenshot image | Project documentation |
+### **Commit History**
 
+| Commit Message | Description |
+| :--- | :--- |
+| Defined seed color, primary and onPrimary | Updated color constants for the theme. |
+| Polish theme using Material colorScheme tokens | Refined UI using the latest Material Design tokens. |
+| Add empty state message when contact list is empty | Displayed a message when the contact list is empty. |
+| Add input validation for name and phone fields | Implemented logic to validate name and phone fields. |
+| Refactor: update UI components with Material3 styles | Updated components with Material3 styles and improved layout. |
+| Refactor: enhance UI with Material3 theme | Applied Material3 theme, custom header, and improved form styling. |
+| Refactor: enhance analysis with detailed explanations | Added explanations on state management and UI updates. |
+| add analysis and reflection for contact app | Documentation for the contact app design system approach. |
+| Refactor: use Material widgets (Card, ListTile) | Implemented Card, ListTile, and InputDecoration components. |
+| Add bold labels above TextFields | Positioned bold labels above the TextFields. |
+| Replace AppBar with custom container header | Replaced standard AppBar with a centered custom container. |
+| Refactor TextField and contact item to helpers | Moved TextField and contact item logic to helper methods. |
+| Add README and Screenshot image | Documentation and project visualization. |
+| add functionality to the '+Add Contact' button | Linked the button to the contact addition logic. |
+| add ListView to display contacts list | Added a ListView to display the contacts list. |
+| add contacts data sample and header | Added contact data samples and the list header. |
+| add Contact class | Created the core Contact data class. |
+| add Button for adding contact | Initialized the button for adding new contacts. |
+| add name and phone TextField inputs | Added Name and Phone TextField inputs. |
+| add Scaffold and AppBar | Established the basic app structure. |
+| Initial commit and project setup | Initial environment configuration. |
+| Initial commit | Project repository initialized. |
 ---
 
 ## 👤 Author
