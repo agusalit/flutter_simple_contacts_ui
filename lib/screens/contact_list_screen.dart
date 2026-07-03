@@ -34,11 +34,18 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   Future<void> _loadContacts() async {
     setState(() => _isLoading = true);
-    final contacts = await _db.getAllContacts();
-    setState(() {
-      _contacts = contacts;
-      _isLoading = false;
-    });
+    print('--- Loading contacts...');
+    try {
+      final contacts = await _db.getAllContacts();
+      print('--- Contacts loaded: ${contacts.length}');
+      setState(() {
+        _contacts = contacts;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('--- ERROR: $e');
+      setState(() => _isLoading = false);
+    }
   }
 
   Future<void> _searchContacts(String query) async {
