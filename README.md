@@ -74,6 +74,12 @@ flutter_simple_contacts_ui/
 
 | Commit Message | Description |
 | :--- | :--- |
+| D6: Set app name and build release APK | Production build |
+| D5: Polish search, empty state, AppBar contact count, snackbar | UI polish and search fix |
+| D4: Add Edit Contact screen with UPDATE and DELETE | Edit and delete functionality |
+| D3: Add Contact screen with validation and SQLite INSERT | Add contact functionality |
+| D2: Add Contact List Screen with search and empty state | Main screen wired to SQLite |
+| D1: Setup SQLite database with DatabaseHelper and Contact model | Database layer setup |
 | Defined seed color, primary and onPrimary | Updated color constants for the theme. |
 | Polish theme using Material colorScheme tokens | Refined UI using the latest Material Design tokens. |
 | Add empty state message when contact list is empty | Displayed a message when the contact list is empty. |
