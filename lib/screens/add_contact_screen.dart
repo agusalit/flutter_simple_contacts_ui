@@ -62,7 +62,11 @@ class _AddContactScreenState extends State<AddContactScreen> {
     if (mounted) {
       setState(() => _isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Contact saved successfully')),
+        const SnackBar(
+          content: Text('Contact saved successfully'),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+        ),
       );
       Navigator.pop(context);
     }

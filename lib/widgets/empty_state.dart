@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EmptyState extends StatelessWidget {
-  const EmptyState({super.key});
+  final bool isSearching;
+
+  const EmptyState({super.key, this.isSearching = false});
 
   @override
   Widget build(BuildContext context) {
@@ -10,20 +12,24 @@ class EmptyState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.contact_page_outlined,
+            isSearching
+                ? Icons.search_off_outlined
+                : Icons.contact_page_outlined,
             size: 64,
             color: Theme.of(context).colorScheme.outline,
           ),
           const SizedBox(height: 12),
           Text(
-            'No contacts yet',
+            isSearching ? 'No contacts found' : 'No contacts yet',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Theme.of(context).colorScheme.outline,
             ),
           ),
           const SizedBox(height: 4),
           Text(
-            'Tap + to add a new contact',
+            isSearching
+                ? 'Try a different name or number'
+                : 'Tap + to add a new contact',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.outline,
             ),

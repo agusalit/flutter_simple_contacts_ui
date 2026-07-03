@@ -109,9 +109,13 @@ class _EditContactScreenState extends State<EditContactScreen> {
     await _db.deleteContact(widget.contact.id!);
 
     if (mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Contact deleted')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Contact deleted'),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+        ),
+      );
       Navigator.pop(context);
     }
   }

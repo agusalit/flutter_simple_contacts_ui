@@ -34,16 +34,16 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   Future<void> _loadContacts() async {
     setState(() => _isLoading = true);
-    print('--- Loading contacts...');
+    debugPrint('--- Loading contacts...');
     try {
       final contacts = await _db.getAllContacts();
-      print('--- Contacts loaded: ${contacts.length}');
+      debugPrint('--- Contacts loaded: ${contacts.length}');
       setState(() {
         _contacts = contacts;
         _isLoading = false;
       });
     } catch (e) {
-      print('--- ERROR: $e');
+      debugPrint('--- ERROR: $e');
       setState(() => _isLoading = false);
     }
   }
@@ -57,6 +57,16 @@ class _ContactListScreenState extends State<ContactListScreen> {
     setState(() => _contacts = contacts);
   }
 
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +75,23 @@ class _ContactListScreenState extends State<ContactListScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(20),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              _isLoading
+                  ? ''
+                  : '${_contacts.length} contact${_contacts.length == 1 ? '' : 's'}',
+              style: TextStyle(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onPrimary.withValues(alpha: 0.8),
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -73,7 +100,10 @@ class _ContactListScreenState extends State<ContactListScreen> {
             padding: const EdgeInsets.all(16),
             child: TextField(
               controller: _searchController,
-              onChanged: _searchContacts,
+              onChanged: (value) {
+                setState(() {});
+                _searchContacts(value);
+              },
               decoration: InputDecoration(
                 hintText: 'Search contacts...',
                 prefixIcon: const Icon(Icons.search),
@@ -90,13 +120,13 @@ class _ContactListScreenState extends State<ContactListScreen> {
               ),
             ),
           ),
-
+          const Divider(height: 1),
           // Contact list
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _contacts.isEmpty
-                ? const EmptyState()
+                ? EmptyState(isSearching: _searchController.text.isNotEmpty)
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: _contacts.length,
